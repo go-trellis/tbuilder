@@ -28,7 +28,7 @@ import (
 	"os"
 
 	"github.com/go-trellis/trellis/configure"
-	"github.com/go-trellis/trellis/runner"
+	"github.com/go-trellis/trellis/service"
 
 	"github.com/go-trellis/common/builder"
 	"github.com/go-trellis/common/logger"
@@ -106,13 +106,13 @@ var runCmd = &cobra.Command{
 
 		defer chanWriter.Stop()
 
-		err = runner.Run(c.Project, log)
+		err = service.Run(c.Project, log)
 		if err != nil {
 			time.Sleep(time.Second)
 			return
 		}
 
-		runner.BlockStop()
+		service.BlockStop()
 	},
 }
 `
