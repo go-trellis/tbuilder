@@ -25,10 +25,10 @@ github.com/go-kit/kit v0.8.0/go.mod h1:xBxKIO96dXMWWy0MnWVtmwkA9/13aqxPnvrjFYMA2
 github.com/go-logfmt/logfmt v0.3.0/go.mod h1:Qt1PoO58o5twSAckw1HlFXLmHsOX5/0LbT9GBnD5lWE=
 github.com/go-logfmt/logfmt v0.4.0/go.mod h1:3RMwSq7FuexP4Kalkev3ejPJsZTpXXBr9+V4qmtdjCk=
 github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/melR3HDY=
-github.com/go-trellis/common v1.8.1 h1:24iS8dNmiZoVdPRIF2jPs9prP5tWFEhaPz7Pa3TgTvo=
-github.com/go-trellis/common v1.8.1/go.mod h1:KOluLPtMuK6Fh2qWdxsafFNjp7A7ftMFKKeNXdliJRI=
-github.com/go-trellis/config v1.4.5 h1:SN46nsoOCH/rs5ASRG0heDICDfI7zByIxkdmKRoy1Hw=
-github.com/go-trellis/config v1.4.5/go.mod h1:EZsBhkcRWCCiJ7Fks2YkebGj70waK344YHP5WIhA5yc=
+github.com/go-trellis/common v1.8.2 h1:do/rdpiDZpX6qJqQEg5YtdxrY1C3s67zaJOrZ7USRbs=
+github.com/go-trellis/common v1.8.2/go.mod h1:KOluLPtMuK6Fh2qWdxsafFNjp7A7ftMFKKeNXdliJRI=
+github.com/go-trellis/config v1.4.6 h1:Wh5eTRskuo94vXyCMoxguQlSPilXivwLohGIvBZDrZU=
+github.com/go-trellis/config v1.4.6/go.mod h1:9LagekiI/taFOBdjP/yrpa3YhmXVlmzLeb2/Xe9VjAg=
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/gogo/protobuf v1.2.1/go.mod h1:hp+jE20tsWTFYpLwKvXlhS1hjn+gTNwPg2I6zVXpSg4=
 github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b/go.mod h1:SBH7ygxi8pfUlaOkMMuAQtPIUF8ecWP5IEl/CR7VP2Q=
