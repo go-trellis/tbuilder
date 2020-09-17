@@ -24,8 +24,10 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"os/signal"
 	"path/filepath"
 	"strings"
+	"syscall"
 	"text/template"
 	"time"
 
@@ -89,9 +91,16 @@ func buildRun() error {
 		buildConfig.originMain()
 	} else {
 
-		defer func() {
+		go func() {
 			if !buildConfig.Project.Build.DelBuildFile {
 				return
+			}
+
+			ch := make(chan os.Signal, 1)
+			signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL)
+
+			select {
+			case <-ch:
 			}
 			buildConfig.RemovePath()
 		}()

@@ -26,9 +26,11 @@ const (
 import (
 	"time"
 	"os"
+	"fmt"
 
 	"github.com/go-trellis/trellis/configure"
 	"github.com/go-trellis/trellis/service"
+	"github.com/go-trellis/trellis/version"
 
 	"github.com/go-trellis/common/builder"
 	"github.com/go-trellis/common/logger"
@@ -68,7 +70,7 @@ var infoCmd = &cobra.Command{
 	Use:   "info",
 	Short: "show project info",
 	Long:  "show the project of build info",
-	Run:   func(*cobra.Command, []string) { builder.Show() },
+	Run:   func(*cobra.Command, []string) { fmt.Println(version.BuildInfo()) },
 }
 
 // runCmd represents the builder command
@@ -106,11 +108,12 @@ var runCmd = &cobra.Command{
 
 		defer chanWriter.Stop()
 
-		err = service.Run(c.Project, log)
+		r, err := service.Run(c.Project, log)
 		if err != nil {
 			time.Sleep(time.Second)
 			return
 		}
+		defer r.Stop()
 
 		service.BlockStop()
 	},
