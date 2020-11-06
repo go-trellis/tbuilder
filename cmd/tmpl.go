@@ -28,7 +28,6 @@ import (
 	"os"
 	"fmt"
 
-	"github.com/go-trellis/trellis/configure"
 	"github.com/go-trellis/trellis/service"
 	"github.com/go-trellis/trellis/version"
 
@@ -81,9 +80,8 @@ var runCmd = &cobra.Command{
 	Run: func(*cobra.Command, []string) {
 		builder.Show()
 
-		c := &configure.Config{}
 
-		err := config.NewSuffixReader().Read(cfgFile, c)
+		cfg, err := config.NewConfig(cfgFile)
 		if err != nil {
 			panic(err)
 		}
@@ -92,9 +90,9 @@ var runCmd = &cobra.Command{
 		defer log.ClearSubscribers()
 
 		chanWriter, err := logger.ChanWriter(log,
-			logger.ChanWiterLevel(c.Project.Logger.Level),
-			logger.ChanWiterSeparator(c.Project.Logger.Separator),
-			logger.ChanWiterBuffer(c.Project.Logger.ChanBuffer),
+			logger.ChanWiterLevel(logger.Level(cfg.GetInt("project.logger.level"))),
+			logger.ChanWiterSeparator(cfg.GetString("project.logger.separator")),
+			logger.ChanWiterBuffer(cfg.GetInt("project.logger.chan_buffer")),
 		)
 		if err != nil {
 			panic(err)
@@ -108,7 +106,7 @@ var runCmd = &cobra.Command{
 
 		defer chanWriter.Stop()
 
-		r, err := service.Run(c.Project, log)
+		r, err := service.Run(cfg, log)
 		if err != nil {
 			time.Sleep(time.Second)
 			return

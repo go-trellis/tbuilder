@@ -25,20 +25,55 @@ import (
 )
 
 var cfgFile string
+var verbose bool
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:     "trellis",
 	Short:   "build trellis project with config file",
-	Version: "v0.1",
+	Version: "v0.1.0",
 	Long:    ``,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
+
+	rootCmd.PersistentFlags().BoolVar(&verbose, "verbose", false, "print debug information")
+
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
+	}
+}
+
+// info prints the given message only if running in verbose mode
+func info(message string) {
+	if verbose {
+		fmt.Println(message)
+	}
+}
+
+// warn prints a non-fatal error
+func warn(err error) {
+	if verbose {
+		fmt.Fprintf(os.Stderr, `/!\ %+v\n`, err)
+	} else {
+		fmt.Fprintln(os.Stderr, `/!\`, err)
+	}
+}
+
+// fatal prints a error and exit
+func fatal(err error) {
+	printErr(err)
+	os.Exit(1)
+}
+
+// printErr prints a error
+func printErr(err error) {
+	if verbose {
+		fmt.Fprintf(os.Stderr, "!! %+v\n", err)
+	} else {
+		fmt.Fprintln(os.Stderr, "!!", err)
 	}
 }

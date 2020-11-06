@@ -52,8 +52,28 @@ var buildCmd = &cobra.Command{
 	Short: `build trellis project`,
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		if err := buildRun(); err != nil {
-			os.Exit(1)
+
+		ch := make(chan os.Signal, 1)
+		signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL)
+		stop := make(chan bool, 1)
+
+		go func() {
+			if err := buildRun(); err != nil {
+				os.Exit(1)
+			}
+			stop <- true
+		}()
+
+		select {
+		case <-ch:
+		case <-stop:
+		}
+		close(ch)
+		close(stop)
+
+		if buildConfig.Project.Build.DelBuildFile {
+			buildConfig.RemovePath()
+			return
 		}
 	},
 }
@@ -62,7 +82,7 @@ func init() {
 	rootCmd.AddCommand(buildCmd)
 
 	buildCmd.Flags().StringVar(&cfgFile, "config", ".tr_complier.yaml", "config file (default is .tr_complier.yaml)")
-	buildCmd.Flags().BoolVar(&buildConfig.verbose, "verbose", false, "print some debug information")
+	buildCmd.Flags().BoolVar(&buildConfig.verbose, "verbose", false, "print debug information")
 }
 
 // BuildConfig build config
@@ -78,8 +98,12 @@ var buildConfig = &BuildConfig{}
 
 func buildRun() error {
 
-	err := config.NewSuffixReader().Read(cfgFile, buildConfig)
+	r, err := config.NewSuffixReader(config.ReaderOptionFilename(cfgFile))
 	if err != nil {
+		return err
+	}
+
+	if err = r.Read(buildConfig); err != nil {
 		return err
 	}
 
@@ -90,20 +114,6 @@ func buildRun() error {
 	if buildConfig.Project.Build.Type == "origin" {
 		buildConfig.originMain()
 	} else {
-
-		go func() {
-			if !buildConfig.Project.Build.DelBuildFile {
-				return
-			}
-
-			ch := make(chan os.Signal, 1)
-			signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGKILL)
-
-			select {
-			case <-ch:
-			}
-			buildConfig.RemovePath()
-		}()
 
 		if err := buildConfig.writeMainFile(); err != nil {
 			return err

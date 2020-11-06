@@ -1,16 +1,20 @@
-# github.com/go-trellis/common v1.8.2
+# github.com/Masterminds/semver v1.5.0
+github.com/Masterminds/semver
+# github.com/go-trellis/common v1.8.3
 github.com/go-trellis/common/files
 github.com/go-trellis/common/formats
 github.com/go-trellis/common/shell
-# github.com/go-trellis/config v1.4.6
+# github.com/go-trellis/config v1.5.0
 github.com/go-trellis/config
-# github.com/google/uuid v1.1.1
+# github.com/google/uuid v1.1.2
 github.com/google/uuid
 # github.com/inconshreveable/mousetrap v1.0.0
 github.com/inconshreveable/mousetrap
-# github.com/spf13/cobra v1.0.0
+# github.com/pkg/errors v0.8.1
+github.com/pkg/errors
+# github.com/spf13/cobra v1.1.1
 github.com/spf13/cobra
-# github.com/spf13/pflag v1.0.3
+# github.com/spf13/pflag v1.0.5
 github.com/spf13/pflag
 # golang.org/x/text v0.3.3
 golang.org/x/text/encoding
